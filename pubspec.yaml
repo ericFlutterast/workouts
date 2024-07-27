@@ -13,18 +13,32 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+
+  #database
+  drift: ^2.19.1+1
+  drift_flutter: ^0.1.0
+  #logger
   l: ^4.0.2
+  #state_menager
   riverpod: ^2.5.1
   flutter_hooks: ^0.20.5
   hooks_riverpod: ^2.5.1
-  drift: ^2.19.1+1
+  #models
   freezed: ^2.5.2
+  freezed_annotation: ^2.4.4
+  #serialization
+  json_serializable: ^6.8.0
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^3.0.0
+  #database
+  drift_dev: ^2.19.1
+  #codegen
+  build_runner: ^2.4.11
 
 flutter:
   uses-material-design: true
