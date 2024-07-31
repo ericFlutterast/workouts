@@ -27,7 +27,9 @@ void run() => runZonedGuarded(() async {
 
       FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
       App.run();
-    }, (error, stackTrace) {});
+    }, (error, stackTrace) {
+      throw error;
+    });
 
 @pragma('vm:entry-point')
 Future<void> _backgroundHandler(RemoteMessage message) async {
