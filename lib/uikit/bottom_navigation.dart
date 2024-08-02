@@ -17,7 +17,7 @@ class AppBottomNavigation extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.2),
+        color: Colors.black.withOpacity(0.85),
         border: const Border(
           top: BorderSide(
             width: 1,

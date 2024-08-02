@@ -18,12 +18,13 @@ class _AppNavigatorState extends State<AppNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       body: ListView.builder(
         itemCount: 25,
         itemBuilder: (context, index) => Container(
           margin: const EdgeInsets.symmetric(vertical: 2),
           height: 60,
-          color: Colors.black54,
+          color: Colors.pink,
         ),
       ),
       extendBody: true,
