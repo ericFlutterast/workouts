@@ -1,10 +1,27 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:workouts/features/home/presentation/screens/home_screen.dart';
+import 'package:workouts/common/navigator/navigator.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   static run() => runApp(const App());
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.data['type'] == 'chat') {
+        print('dfafafafds');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +37,7 @@ class MaterialContext extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Workouts',
-      home: HomeScreen(),
+      home: AppNavigator(),
     );
   }
 }

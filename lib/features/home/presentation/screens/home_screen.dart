@@ -5,9 +5,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Workouts hello'),
+        child: ListView.builder(
+          itemCount: 25,
+          itemBuilder: (context, index) => Container(
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            height: 60,
+            color: Colors.pink,
+          ),
+        ),
       ),
     );
   }
