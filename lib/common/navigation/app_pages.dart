@@ -23,8 +23,8 @@ abstract class AppPage<T> extends Page<T> {
     return switch (path) {
       'home' => HomePage(),
       'workouts' => WorkoutsPage(),
-      //'statistics' => StatisticsPAge(),
-      //'profile' => ProfilePage(),
+      'statistics' => StatisticsPage(),
+      'profile' => ProfilePage(),
       _ => NotFoundPage(),
     };
   }
@@ -35,22 +35,26 @@ abstract class AppPage<T> extends Page<T> {
   final RouteSettings? settings;
 
   @override
-  Route<T> createRoute(BuildContext context) => PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 1200),
-        reverseTransitionDuration: const Duration(milliseconds: 300),
-        maintainState: maintainState,
-        fullscreenDialog: fullscreenDialog,
-        settings: this,
-        pageBuilder: (context, animation, _) => ScaleTransition(
-          scale: Tween<double>(begin: .0, end: 1.0).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutBack,
-            ),
+  Route<T> createRoute(BuildContext context) => createPageRout(context, builder(context));
+
+  Route<T> createPageRout(BuildContext context, Widget child) {
+    return PageRouteBuilder<T>(
+      transitionDuration: const Duration(milliseconds: 1200),
+      reverseTransitionDuration: const Duration(milliseconds: 300),
+      maintainState: maintainState,
+      fullscreenDialog: fullscreenDialog,
+      settings: this,
+      pageBuilder: (context, animation, _) => ScaleTransition(
+        scale: Tween<double>(begin: .0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOutBack,
           ),
-          child: builder.call(context),
         ),
-      );
+        child: builder.call(context),
+      ),
+    );
+  }
 
   Widget builder(BuildContext context);
 }
@@ -67,6 +71,36 @@ final class WorkoutsPage<T> extends AppPage<T> {
 
   @override
   Widget builder(BuildContext context) => const WorkoutScreen();
+}
+
+final class StatisticsPage<T> extends AppPage<T> {
+  StatisticsPage({super.location = 'statistics', super.name = 'statistics'});
+
+  @override
+  Widget builder(BuildContext context) => Scaffold(
+        body: Container(
+          color: Colors.pinkAccent,
+          child: const Center(
+            child: Text('statistics'),
+          ),
+        ),
+      );
+}
+
+final class ProfilePage<T> extends AppPage<T> {
+  ProfilePage({super.location = 'profile', super.name = 'profile'});
+
+  @override
+  Widget builder(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.cyanAccent,
+        child: const Center(
+          child: Text('profile'),
+        ),
+      ),
+    );
+  }
 }
 
 final class NotFoundPage<T> extends AppPage<T> {

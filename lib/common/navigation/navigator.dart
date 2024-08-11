@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:workouts/common/navigation/app_navigator.dart';
+import 'package:workouts/common/navigation/observers.dart';
 import 'package:workouts/common/widgets/shake_widget.dart';
 import 'package:workouts/uikit/bottom_navigation.dart';
 
-//TODO: move to other directory
+//TODO: move to other directory and remove file
 class AppRoot extends StatefulWidget {
   const AppRoot({
     super.key,
@@ -23,45 +24,88 @@ class _AppRootState extends State<AppRoot> {
     Icons.person,
   ];
 
-  final List<String> locations = ['home', 'workouts', '', ''];
+  final List<String> locations = ['home', 'workouts', 'statistics', 'profile'];
 
   static final _bottomNavKeys = List.generate(4, (_) => UniqueKey());
 
+  final pageObserver = PageObserver();
+
   @override
-  Widget build(BuildContext context) => Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Navigator(
-            pages: AppNavigator.of(context).pages,
-            transitionDelegate: const DefaultTransitionDelegate(),
-            onDidRemovePage: (page) {
-              //TODO:
-            },
-          ),
-          AppBottomNavigation(
-            children: [
-              for (int i = 0; i < 4; i++)
-                ShakeWidget(
-                  deltaY: 6.5,
-                  curve: Curves.bounceOut,
-                  key: _bottomNavKeys[i],
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentTabIndex = i;
-                        _bottomNavKeys[i] = UniqueKey();
-                      });
-                      AppNavigator.of(context).addPageNamed(locations[i]);
-                    },
-                    icon: Icon(
-                      _bottomNavbarIcons[i],
-                      color: i == _currentTabIndex ? Colors.white : Colors.white70,
-                      size: 30,
+  Widget build(BuildContext context) {
+    return AppNavigator(
+      initPath: 'home',
+      pageObserver: pageObserver,
+      child: Builder(
+        builder: (context) => Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Navigator(
+              pages: AppNavigator.pagesOf(context),
+              observers: [pageObserver],
+              transitionDelegate: const DefaultTransitionDelegate(),
+              onDidRemovePage: (page) {},
+            ),
+            AppBottomNavigation(
+              children: [
+                for (int i = 0; i < 4; i++)
+                  ShakeWidget(
+                    deltaY: 6.5,
+                    curve: Curves.bounceOut,
+                    key: _bottomNavKeys[i],
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _currentTabIndex = i;
+                          _bottomNavKeys[i] = UniqueKey();
+                        });
+                        AppNavigator.of(context).pushNamed(locations[i]);
+                      },
+                      icon: Icon(
+                        _bottomNavbarIcons[i],
+                        color: i == _currentTabIndex ? Colors.white : Colors.white70,
+                        size: 30,
+                      ),
                     ),
-                  ),
-                )
-            ],
-          ),
-        ],
-      );
+                  )
+              ],
+            ),
+            Positioned(
+              right: 10,
+              bottom: 100,
+              child: ElevatedButton(
+                onPressed: () {
+                  AppNavigator.maybePop(context);
+                },
+                child: const Text('pop button'),
+              ),
+            ),
+            Positioned(
+              left: 10,
+              bottom: 100,
+              child: ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: Container(
+                            height: 150,
+                            width: 250,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('pop')),
+                          ),
+                        );
+                      });
+                },
+                child: const Text('dialog'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

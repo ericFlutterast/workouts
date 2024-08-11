@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workouts/common/navigation/app_navigator.dart';
 import 'package:workouts/common/navigation/navigator.dart';
 
 class App extends StatelessWidget {
@@ -18,13 +17,10 @@ class MaterialContext extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Workouts',
-      home: AppNavigator(
-        initPath: Uri.parse('home'),
-        child: const AppRoot(),
-      ),
+      home: AppRoot(),
     );
   }
 }
