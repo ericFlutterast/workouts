@@ -24,7 +24,12 @@ class _AppRootState extends State<AppRoot> {
     Icons.person,
   ];
 
-  final List<String> locations = ['home', 'workouts', 'statistics', 'profile'];
+  final List<String> locations = [
+    'home',
+    'workouts',
+    'statistics/bottom/description/dialog',
+    'profile'
+  ];
 
   static final _bottomNavKeys = List.generate(4, (_) => UniqueKey());
 
@@ -43,7 +48,9 @@ class _AppRootState extends State<AppRoot> {
               pages: AppNavigator.pagesOf(context),
               observers: [pageObserver],
               transitionDelegate: const DefaultTransitionDelegate(),
-              onDidRemovePage: (page) {},
+              onDidRemovePage: (page) {
+                print('a');
+              },
             ),
             AppBottomNavigation(
               children: [
@@ -58,7 +65,7 @@ class _AppRootState extends State<AppRoot> {
                           _currentTabIndex = i;
                           _bottomNavKeys[i] = UniqueKey();
                         });
-                        AppNavigator.of(context).pushNamed(locations[i]);
+                        AppNavigator.of(context).buildFromPath(locations[i]);
                       },
                       icon: Icon(
                         _bottomNavbarIcons[i],
@@ -89,6 +96,7 @@ class _AppRootState extends State<AppRoot> {
                       builder: (context) {
                         return Dialog(
                           child: Container(
+                            color: Colors.red,
                             height: 150,
                             width: 250,
                             child: ElevatedButton(
