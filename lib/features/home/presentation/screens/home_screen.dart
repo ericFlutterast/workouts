@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class HomeScreen extends HookWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
